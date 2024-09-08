@@ -1,68 +1,111 @@
-class Figure:
-    def __init__(self):
-        pass
+class Computer:
+    def __init__(self, cpu, memory):
+        self.__cpu = cpu
+        self.__memory = memory
 
-    unit = "cm"
+    def get_cpu(self):
+        return self.__cpu
 
-    def calculate_area(self):
-        pass
+    def set_cpu(self, cpu):
+        self.__cpu = cpu
 
-    def info(self):
-        pass
+    def get_memory(self):
+        return self.__memory
 
+    def set_memory(self, memory):
+        self.__memory = memory
 
-class Square(Figure):
-    def __init__(self, side_length):
-        super().__init__()
-        self.__side_length = side_length
+    def make_computations(self, cpu, memory):
+        return self.__cpu + self.__memory
 
-    def get_side_length(self):
-        return self.__side_length
+    def __eq__(self, other):
+        """Оператор == (равно)"""
+        if isinstance(other, Computer):
+            return self.__memory == other.__memory
+        return False
 
-    def set_side_length(self, side_length):
-        self.__side_length = side_length
+    def __ne__(self, other):
+        """Оператор != (не равно)"""
+        return not self.__eq__(other)
 
-    def calculate_area(self):
-        return self.__side_length * 4
+    def __lt__(self, other):
+        """Оператор < (меньше)"""
+        if isinstance(other, Computer):
+            return self.__memory < other.__memory
+        return False
 
-    def info(self):
-        return f"Square side length: {self.__side_length}{Figure.unit}, area: {self.calculate_area()}{Figure.unit}."
+    def __le__(self, other):
+        """Оператор <= (меньше или равно)"""
+        if isinstance(other, Computer):
+            return self.__memory <= other.__memory
+        return False
 
+    def __gt__(self, other):
+        """Оператор > (больше)"""
+        if isinstance(other, Computer):
+            return self.__memory > other.__memory
+        return False
 
-class Rectangle(Figure):
-    def __init__(self, length, width):
-        super().__init__()
-        self.__length = length
-        self.__width = width
+    def __ge__(self, other):
+        """Оператор >= (больше или равно)"""
+        if isinstance(other, Computer):
+            return self.__memory >= other.__memory
+        return False
 
-    def get_length(self):
-        return self.__length
-
-    def set_length(self, length):
-        self.__length = length
-
-    def get_width(self):
-        return self.__width
-
-    def set_width(self, width):
-        self.__width = width
-
-    def calculate_area(self):
-        return self.__width * self.__length
-
-    def info(self):
-        return f"Rectangle length: {self.__length}{Figure.unit}, width: {self.__width}{Figure.unit}, area: {self.calculate_area()}{Figure.unit}."
-
-
-square = Square(4)
-square1 = Square(7)
-
-rectangle = Rectangle(4, 2)
-rectangle1 = Rectangle(9, 5)
-rectangle2 = Rectangle(6, 3)
-
-figure_list = [square, square1, rectangle, rectangle1, rectangle2]
-for figur in figure_list:
-    print(figur.info())
+    def __str__(self):
+        return f"Процессор: {self.__cpu}, Оперативная память: {self.__memory}"
 
 
+class Phone:
+    def __init__(self, sim_cards_list):
+        self.__sim_cards_list = sim_cards_list
+
+    def get_sim_cards_list(self):
+        return self.__sim_cards_list
+
+    def set_sim_cards_list(self, sim_cards_list):
+        self.__sim_cards_list = sim_cards_list
+
+    def call(self, sim_card_number, call_to_number):
+        if sim_card_number <= len(self.__sim_cards_list):
+            sim_card = self.__sim_cards_list[sim_card_number - 1]
+            print(f"Идет звонок на номер {call_to_number} с сим-карты -{sim_card_number}- {sim_card}")
+        else:
+            print("Неверный номер сим-карты")
+
+    def __str__(self):
+        return f"Список сим-карт: {self.__sim_cards_list}"
+
+
+class SmartPhone(Computer, Phone):
+    def __init__(self, cpu, memory, sim_cards_list):
+        Computer.__init__(self, cpu, memory)
+        Phone.__init__(self, sim_cards_list)
+
+    def use_gps(self, location):
+        return print(f"Построение маршрута до {location}")
+
+    def __str__(self):
+        return f"Процессор: {self.get_cpu()}, Оперативная память: {self.get_memory()}, Сим-карта: {self.get_sim_cards_list()}"
+
+
+computer = Computer(2, 4)
+print(computer)
+
+phone = Phone(["Beeline", "O!"])
+print(phone.call(1, "+996 754 12 35 46"))
+print(phone.call(3, "+996 754 12 35 46"))
+print(phone)
+
+smart_phone = SmartPhone(4, 8, ["MegaCom"])
+smart_phone2 = SmartPhone(2, 4, ["Salam"])
+
+print(smart_phone == smart_phone2)
+print(smart_phone != smart_phone2)
+print(smart_phone < smart_phone2)
+print(smart_phone <= smart_phone2)
+print(smart_phone > smart_phone2)
+print(smart_phone >= smart_phone2)
+
+print(smart_phone)
+print(smart_phone.use_gps("Бишкек"))
