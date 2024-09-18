@@ -1,4 +1,3 @@
-from colorama import Fore, Back
 def get_feetback():
     feedback = input('Введите "да", "больше" или "меньше": \n').lower()
     if feedback in "да" "больше" "меньше":
@@ -24,7 +23,7 @@ def get_num():
                 file.write(f'Количество попыток: {attempt}\n')
                 file.write(f'Список попыток: {guesses}\n')
                 file.write(f'Загаданное число: {gues}\n')
-                print(Fore.BLUE + Back.BLACK + f'Рядом с этим файлом создалсы ещё один файл с названием "new_file.txt"')
+                print(f'Рядом с этим файлом создалсы ещё один файл с названием "new_file.txt"')
                 break
 
         elif feedback == "больше":
